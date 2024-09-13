@@ -1,4 +1,5 @@
-use crate::*;
+use bus_prototype::NodeWalk;
+
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 

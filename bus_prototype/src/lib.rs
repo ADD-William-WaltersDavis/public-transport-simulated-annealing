@@ -7,7 +7,6 @@ use smallvec::SmallVec;
 use std::collections::HashMap;
 use std::io::{BufWriter, Write};
 
-
 #[derive(Deserialize, Serialize, Debug, Clone, Copy)]
 pub struct Points {
     pub points: [[f64; 2]; 2],
@@ -17,11 +16,23 @@ pub struct Points {
 pub struct EdgeWalk {
     pub to: usize,
     pub cost: usize,
-    pub _pt: bool,
+    pub has_pt: bool,
 }
 #[derive(Deserialize, Debug, Clone)]
 pub struct NodeWalk {
     pub edges: SmallVec<[EdgeWalk; 4]>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Copy)]
+pub struct EdgeRoute {
+    pub leavetime: usize,
+    pub cost: usize,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct NodeRoute {
+    pub to: usize,
+    pub timetable: SmallVec<[EdgeRoute; 4]>,
 }
 
 pub fn read_walk_graph() -> Result<Vec<NodeWalk>> {

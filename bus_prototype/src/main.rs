@@ -1,7 +1,11 @@
 mod floodfill;
+mod floodfill_pt;
 mod process_tree;
 
-use bus_prototype::{read_start_nodes, read_travel_times, read_walk_graph, write_file, Points, NodeWalk, EdgeWalk, StartNodes};
+use bus_prototype::{
+    read_start_nodes, read_travel_times, read_walk_graph, write_file, EdgeWalk, NodeWalk, Points,
+    StartNodes,
+};
 use kdtree::distance::squared_euclidean;
 use kdtree::KdTree;
 use rand::prelude::*;
@@ -100,7 +104,7 @@ fn add_to_graph_walk(
             let new_edge = EdgeWalk {
                 to: node_ids[i],
                 cost: travel_times[&node_ids[i - 1]][&node_ids[i]] + 10,
-                _pt: true,
+                has_pt: true,
             };
             graph_walk[node_ids[i - 1]].edges.push(new_edge);
             nodes_changes.push(node_ids[i - 1]);
@@ -172,30 +176,3 @@ fn get_neighbour(current_points: Points, step_size: f64, bounds: &[f64; 4]) -> P
     }
     new_points
 }
-// fn get_neighbour(
-//     current_points: Points,
-//     step_size: f64,
-//     bounds: &[f64; 4],
-// ) -> Points {
-//     let mut new_points = current_points;
-//     let mut rng = rand::thread_rng();
-//     for i in 0..10 {
-//         let x = rng.gen_range(-step_size..step_size);
-//         let y = rng.gen_range(-step_size..step_size);
-//         if new_points.points[i][0] + x < bounds[0] {
-//             new_points.points[i][0] = bounds[0];
-//         } else if new_points.points[i][0] + x > bounds[1] {
-//             new_points.points[i][0] = bounds[1];
-//         } else {
-//             new_points.points[i][0] += x;
-//         }
-//         if new_points.points[i][1] + y < bounds[2] {
-//             new_points.points[i][1] = bounds[2];
-//         } else if new_points.points[i][1] + y > bounds[3] {
-//             new_points.points[i][1] = bounds[3];
-//         } else {
-//             new_points.points[i][1] += y;
-//         }
-//     }
-//     new_points
-// }
